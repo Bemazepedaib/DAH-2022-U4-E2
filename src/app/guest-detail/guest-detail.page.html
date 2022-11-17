@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reserva de {{guest.guestName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Reserva de la Habitación: {{guest.roomCode}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card-subtitle>Titular: {{guest.guestName}}</ion-card-subtitle>
+      <ion-card-subtitle>Número de Teléfono: {{guest.guestPhone}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Entrada: {{guest.enterDate.toDateString()}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Salida: {{guest.leaveDate.toDateString()}}</ion-card-subtitle>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

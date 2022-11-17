@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="myForm">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input type="password" formControlName="phone"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['phone']">
+              <div class="errormessage" *ngIf="(myForm.get('phone').dirty || 
+                                                myForm.get('phone').touched) && 
+                                                myForm.get('phone').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Codigo Habitación</ion-label>
+            <ion-input type="password" formControlName="room"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['room']">
+              <div class="errormessage" *ngIf="(myForm.get('room').dirty || 
+                                                myForm.get('room').touched) && 
+                                                myForm.get('room').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-select placeholder="Idioma" formControlName="lang">
+              <ion-select-option value="Espanol">Español</ion-select-option>
+              <ion-select-option value="Ingles">English</ion-select-option>
+              <ion-select-option value="Frances">Français</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['lang']">
+              <div class="errormessage" *ngIf="(myForm.get('lang').dirty || 
+                                                myForm.get('lang').touched) && 
+                                                myForm.get('lang').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" (click)="login()">
+            <ion-icon name="log-in"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>

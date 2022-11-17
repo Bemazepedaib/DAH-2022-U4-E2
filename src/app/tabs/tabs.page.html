@@ -1,20 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{guest.guestName}}
+      {{welcome}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-tabs>
-
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="tab1">
-      <ion-icon name="triangle"></ion-icon>
-      <ion-label>Tab 1</ion-label>
+  <ion-tab-bar slot="bottom" >
+    <ion-tab-button tab=tab1>
+      <ion-icon name="alert"></ion-icon>
+      <ion-label>{{this.tab1}}</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="tab2">
-      <ion-icon name="ellipse"></ion-icon>
-      <ion-label>Tab 2</ion-label>
+    <ion-tab-button tab=tab2 >
+      <ion-icon name="send"></ion-icon>
+      <ion-label>{{this.tab2}}</ion-label>
     </ion-tab-button>
-
-    <ion-tab-button tab="tab3">
-      <ion-icon name="square"></ion-icon>
-      <ion-label>Tab 3</ion-label>
+    <ion-tab-button tab=tab3 >
+      <ion-icon name="glasses"></ion-icon>
+      <ion-label>{{this.tab3}}</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
-
 </ion-tabs>

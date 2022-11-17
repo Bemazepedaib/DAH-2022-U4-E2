@@ -7,11 +7,30 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>{{this.entr}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>03:00 pm</ion-card-content>
+  </ion-card>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>{{this.sald}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>12:00 pm</ion-card-content>
+  </ion-card>
+  <ion-card color="light">
+    <ion-card-header>
+      <ion-card-title>{{this.recom}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{this.recom1}}</ion-card-content>
+    <ion-card-content>{{this.recom2}}</ion-card-content>
+    <ion-card-content>{{this.recom3}}</ion-card-content>
+  </ion-card>
+  <ion-card color="light" *ngIf="fechaActual()">
+    <ion-card-header>
+      <ion-card-title>{{this.token}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{this.room.enterCode}}</ion-card-content>
+  </ion-card>
 </ion-content>

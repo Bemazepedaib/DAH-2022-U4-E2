@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar Reservación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="myForm">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nombre de Huésped</ion-label>
+            <ion-input formControlName="name"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['name']">
+              <div class="errormessage" *ngIf="(myForm.get('name').dirty || 
+                                                myForm.get('name').touched) && 
+                                                myForm.get('name').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input formControlName="phone"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['phone']">
+              <div class="errormessage" *ngIf="(myForm.get('phone').dirty || 
+                                                myForm.get('phone').touched) && 
+                                                myForm.get('phone').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Fecha de entrada</ion-col>
+        <ion-col>Fecha de salida</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="inDate" [min]="now" max="2023-12-31T23:59:59">
+          </ion-datetime>
+        </ion-col>
+        <ion-col>
+          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="outDate" [min]="now" max="2023-12-31T23:59:59">
+          </ion-datetime>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-select placeholder="Habitacion" formControlName="room"> 
+              <ion-select-option *ngFor="let item of freeRooms" [value]="item.roomCode">{{item.roomCode}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['room']">
+              <div class="errormessage" *ngIf="(myForm.get('room').dirty || 
+                                                myForm.get('room').touched) && 
+                                                myForm.get('room').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+  <ion-button expand="block" color="primary" (click)="addBooking()" *ngIf="myForm.valid">
+    <ion-icon name="add"></ion-icon>
+  </ion-button>
+</ion-content>
