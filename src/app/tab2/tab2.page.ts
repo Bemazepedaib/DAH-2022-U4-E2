@@ -20,6 +20,7 @@ export class Tab2Page {
   public recom1: string;
   public recom2: string;
   public recom3: string;
+  public roomT: string;
   public token: string;
   public now = new Date(Date.now())
 
@@ -55,6 +56,7 @@ export class Tab2Page {
         this.recom1 = 'Por seguridad, no podrás ver tu token de entrada hasta la hora de tu check-in.'
         this.recom2 = 'No compartas este token con nadie.'
         this.recom3 = 'Antes de hacer tu Check-out, revisa que todas tus pertenencias estén contigo.'
+        this.roomT = 'Tu habitación es la: '
         this.token = 'Tu token de entrada es: '
         break;
       case 'en':
@@ -64,6 +66,7 @@ export class Tab2Page {
         this.recom1 = 'For security, you wont see your entrance token until its time for you to Check-in.'
         this.recom2 = 'Dont share this token to nobody.'
         this.recom3 = 'Before you Check-out, see if all of your belongings are with you.'
+        this.roomT = 'Your room is: '
         this.token = 'Your entrance token is: '
         break;
       case 'fr':
@@ -73,6 +76,7 @@ export class Tab2Page {
         this.recom1 = 'Pour des raisons de sécurité, vous ne pourrez voir votre jeton dentrée quau moment de votre enregistrement..'
         this.recom2 = 'Ne partagez ce jeton avec personne.'
         this.recom3 = 'Avant de partir, vérifiez que tous vos effets personnels sont avec vous.'
+        this.roomT = 'Ta chambre est: '
         this.token = 'Votre jeton dentrée est: '
         break;
     }
