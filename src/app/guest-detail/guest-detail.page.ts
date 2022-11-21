@@ -28,7 +28,6 @@ export class GuestDetailPage implements OnInit {
     )
     this.mess = "Hola tus credenciales de acceso son: Usuario: " + this.guest.guestPhone + " , Contraseña: " + this.guest.roomCode
     this.room = this.rS.getOccupiedRoomByCode(this.guest.roomCode)
-    this.url = "https://wa.me/52"+this.guest.guestPhone+"?text="+this.mess
   }
 
   public sendMessage(){
