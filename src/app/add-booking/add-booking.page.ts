@@ -32,7 +32,8 @@ export class AddBookingPage implements OnInit {
       phone: ["", Validators.compose([Validators.required, Validators.pattern('[0-9]{10}'), Validators.minLength(10), Validators.maxLength(10)])],
       inDate: ["", Validators.compose([Validators.required])],
       outDate: ["", Validators.compose([Validators.required])],
-      room: ["", Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])]
+      room: ["", Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])],
+      payment: ["", Validators.compose([Validators.required, Validators.pattern('^[0-9]+$')])]
     });
     this.validationMessages = {
       'name': [
@@ -49,6 +50,10 @@ export class AddBookingPage implements OnInit {
         { type: 'minLength', message: "Elige una habitación" },
         { type: 'maxLength', message: "Elige una habitación" }
       ],
+      'payment': [
+        { type: 'required', message: "No dejar el campo vacío, poner un 0"},
+        { type: 'pattern', message: "Poner una cantidad numérica"}
+      ]
     }
   }
 
@@ -68,7 +73,8 @@ export class AddBookingPage implements OnInit {
           guestPhone: this.myForm.get('phone').value,
           enterDate: this.newDate(this.myForm.get('inDate').value),
           leaveDate: this.newDate(this.myForm.get('outDate').value),
-          roomCode: this.myForm.get('room').value
+          roomCode: this.myForm.get('room').value,
+          payment: this.myForm.get('payment').value
         }
         this.gS.addGuest(g)
         let r: Room = this.rS.getFreeRoomByCode(this.myForm.get('room').value)

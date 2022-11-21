@@ -1,4 +1,5 @@
 export class Room {
-    enterCode: string;
+    enterCode: number;
     roomCode: string;
+    price: number;
 }

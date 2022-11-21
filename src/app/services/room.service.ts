@@ -11,15 +11,18 @@ export class RoomService {
 
   constructor() {
     this.ocuppied = [{
-      enterCode: "11111",
-      roomCode: "101"
+      enterCode: Math.floor(Math.random()*90000) + 10000,
+      roomCode: "101",
+      price: 1500
     }, {
-      enterCode: "22222",
-      roomCode: "102"
+      enterCode: Math.floor(Math.random()*90000) + 10000,
+      roomCode: "102",
+      price: 2000
     }]
     this.free = [{
-      enterCode: "33333",
-      roomCode: "103"
+      enterCode: Math.floor(Math.random()*90000) + 10000,
+      roomCode: "103",
+      price: 2500
     }]
   }
 

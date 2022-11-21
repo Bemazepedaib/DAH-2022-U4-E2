@@ -17,19 +17,22 @@ export class GuestService {
       enterDate: new Date("2022/11/14"),
       leaveDate: new Date("2022/11/24"),
       roomCode: "101",
+      payment: 1500
     }, {
       guestName: "Gustavo Lemus",
       guestPhone: "3112705037",
       enterDate: new Date("2022/11/25"),
       leaveDate: new Date("2022/11/27"),
-      roomCode: "102"
+      roomCode: "102",
+      payment: 1000
     }]
     this.activeGuest = {
       guestName: "",
       guestPhone: "",
       enterDate: new Date(""),
       leaveDate: new Date(""),
-      roomCode: ""
+      roomCode: "",
+      payment: 0
     }
     this.lang = "es"
 

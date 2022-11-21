@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Guest } from '../models/guest';
 import { GuestService } from '../services/guest.service';
+import { Room } from '../models/room';
+import { RoomService } from '../services/room.service';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-guest-detail',
@@ -11,8 +14,11 @@ import { ActivatedRoute } from '@angular/router';
 export class GuestDetailPage implements OnInit {
 
   public guest: Guest
+  public room: Room
+  public url: string
+  p
 
-  constructor(private gS: GuestService, private aR: ActivatedRoute) { }
+  constructor(private gS: GuestService, private aR: ActivatedRoute, private rS: RoomService) { }
 
   ngOnInit() {
     this.aR.queryParams.subscribe(
@@ -20,7 +26,8 @@ export class GuestDetailPage implements OnInit {
         this.guest = this.gS.getGuestByPhoneNumber(params.phoneNumber)
       }
     )
-    
+    this.room = this.rS.getOccupiedRoomByCode(this.guest.roomCode)
+    this.url = "https://wa.me/511"+this.guest.guestPhone+"?text=Hola"
   }
 
 }

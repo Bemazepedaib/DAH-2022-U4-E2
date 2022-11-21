@@ -50,19 +50,22 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="inDate" [min]="now" max="2023-12-31T23:59:59">
+          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="inDate" [min]="now"
+            max="2023-12-31T23:59:59">
           </ion-datetime>
         </ion-col>
         <ion-col>
-          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="outDate" [min]="now" max="2023-12-31T23:59:59">
+          <ion-datetime displayFormat="DD/MM/YYYY" presentation="date" formControlName="outDate" [min]="now"
+            max="2023-12-31T23:59:59">
           </ion-datetime>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-select placeholder="Habitacion" formControlName="room"> 
-              <ion-select-option *ngFor="let item of freeRooms" [value]="item.roomCode">{{item.roomCode}}</ion-select-option>
+            <ion-select placeholder="Habitacion" formControlName="room">
+              <ion-select-option *ngFor="let item of freeRooms" [value]="item.roomCode">{{item.roomCode}} {{item.price|currency}}
+              </ion-select-option>
             </ion-select>
           </ion-item>
           <div>
@@ -70,6 +73,23 @@
               <div class="errormessage" *ngIf="(myForm.get('room').dirty || 
                                                 myForm.get('room').touched) && 
                                                 myForm.get('room').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Pago</ion-label>
+            <ion-input formControlName="payment"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['payment']">
+              <div class="errormessage" *ngIf="(myForm.get('payment').dirty || 
+                                                myForm.get('payment').touched) && 
+                                                myForm.get('payment').hasError(item.type)">
                 {{item.message}}
               </div>
             </ng-container>

@@ -22,7 +22,9 @@ export class Tab2Page {
   public recom3: string;
   public roomT: string;
   public token: string;
+  public pay: string;
   public now = new Date(Date.now())
+  public resto: number;
 
   constructor(private gS: GuestService, private rS: RoomService) {
   }
@@ -32,6 +34,7 @@ export class Tab2Page {
     this.room = this.rS.getOccupiedRoomByCode(this.guest.roomCode)
     this.lang = this.gS.getLang();
     this.checkForLang();
+    this.resto = this.room.price - this.guest.payment
   }
 
   public fechaActual() {
@@ -47,17 +50,25 @@ export class Tab2Page {
     }
   }
 
+  public pagado(){
+    if((this.guest.payment == this.room.price)){
+      return true
+    }
+    return false
+  }
+
   public checkForLang() {
     switch (this.lang) {
       case 'es':
-        this.entr = 'Bienvenid@, puedes hacer tu Check-in a las: '
-        this.sald = 'Te recordamos que tienes que hacer tu Check-out a las: '
-        this.recom = 'Te recomendamos que: '
-        this.recom1 = 'Por seguridad, no podrás ver tu token de entrada hasta la hora de tu check-in.'
-        this.recom2 = 'No compartas este token con nadie.'
-        this.recom3 = 'Antes de hacer tu Check-out, revisa que todas tus pertenencias estén contigo.'
-        this.roomT = 'Tu habitación es la: '
-        this.token = 'Tu token de entrada es: '
+        this.entr = 'Bienvenid@, puede hacer su Check-in a las: '
+        this.sald = 'Le recordamos que debes hacer tu Check-out a las: '
+        this.recom = 'Le recomendamos que: '
+        this.recom1 = 'Por seguridad, no podrá ver su token de entrada hasta la hora de su check-in.'
+        this.recom2 = 'No comparta este token con nadie.'
+        this.recom3 = 'Antes de hacer su Check-out, revise que todas sus pertenencias estén con usted.'
+        this.roomT = 'Su habitación es la: '
+        this.token = 'Su token de entrada es: '
+        this.pay = 'Le recordamos que le resta por pagar: '
         break;
       case 'en':
         this.entr = 'Welcome, you can Check-in at: '
@@ -68,6 +79,7 @@ export class Tab2Page {
         this.recom3 = 'Before you Check-out, see if all of your belongings are with you.'
         this.roomT = 'Your room is: '
         this.token = 'Your entrance token is: '
+        this.pay = 'We remind you that you still have to pay: '
         break;
       case 'fr':
         this.entr = 'Bienvenue, vous pouvez vous enregistrer à: '
@@ -78,6 +90,7 @@ export class Tab2Page {
         this.recom3 = 'Avant de partir, vérifiez que tous vos effets personnels sont avec vous.'
         this.roomT = 'Ta chambre est: '
         this.token = 'Votre jeton dentrée est: '
+        this.pay = 'Nous vous rappelons que vous devez toujours payer: '
         break;
     }
   }

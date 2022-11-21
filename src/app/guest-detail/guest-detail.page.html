@@ -15,8 +15,11 @@
     <ion-card-content>
       <ion-card-subtitle>Titular: {{guest.guestName}}</ion-card-subtitle>
       <ion-card-subtitle>Número de Teléfono: {{guest.guestPhone}}</ion-card-subtitle>
-      <ion-card-subtitle>Fecha de Entrada: {{guest.enterDate.toDateString()}}</ion-card-subtitle>
-      <ion-card-subtitle>Fecha de Salida: {{guest.leaveDate.toDateString()}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Entrada: {{guest.enterDate.toLocaleDateString()}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Salida: {{guest.leaveDate.toLocaleDateString()}}</ion-card-subtitle>
+      <ion-card-subtitle>Precio habitacion: {{room.price|currency}}</ion-card-subtitle>
+      <ion-card-subtitle>Cantidad pagada: {{guest.payment|currency}}</ion-card-subtitle>
+      <ion-button href={{this.url}} color="success"><ion-icon name="logo-whatsapp"></ion-icon></ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

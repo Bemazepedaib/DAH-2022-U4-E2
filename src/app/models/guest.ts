@@ -4,4 +4,5 @@ export class Guest {
     enterDate: Date;
     leaveDate: Date;
     roomCode: string;
+    payment: number
 }

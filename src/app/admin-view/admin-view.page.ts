@@ -25,6 +25,11 @@ export class AdminViewPage implements OnInit {
   ngOnInit() {
   }
 
+  public getPrice(rc: string): number{
+    let a = this.rS.getOccupiedRoomByCode(rc)
+    return a.price
+  }
+
   public getGuestByPhoneNumber(pn: string): void{
     this.r.navigate(
       ['/guest-detail'],
