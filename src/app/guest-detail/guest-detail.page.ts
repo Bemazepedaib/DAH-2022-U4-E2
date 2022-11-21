@@ -16,7 +16,7 @@ export class GuestDetailPage implements OnInit {
   public guest: Guest
   public room: Room
   public url: string
-  p
+  public mess: string
 
   constructor(private gS: GuestService, private aR: ActivatedRoute, private rS: RoomService) { }
 
@@ -26,8 +26,12 @@ export class GuestDetailPage implements OnInit {
         this.guest = this.gS.getGuestByPhoneNumber(params.phoneNumber)
       }
     )
+    this.mess = "Hola tus credenciales de acceso son: Usuario: " + this.guest.guestPhone + " , Contraseña: " + this.guest.roomCode
     this.room = this.rS.getOccupiedRoomByCode(this.guest.roomCode)
-    this.url = "https://wa.me/511"+this.guest.guestPhone+"?text=Hola"
+    this.url = "https://wa.me/52"+this.guest.guestPhone+"?text="+this.mess
   }
 
+  public sendMessage(){
+    window.open("https://wa.me/52"+this.guest.guestPhone+"?text="+this.mess)
+  }
 }
