@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Guest } from '../models/guest';
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,43 +13,54 @@ export class GuestService {
   private activeGuest: Guest;
   private lang: string
 
-  constructor() {
-    this.guests = [{
-      guestName: "Luis Saucedo",
-      guestPhone: "3111923062",
-      enterDate: new Date("2022/11/14"),
-      leaveDate: new Date("2022/11/24"),
-      roomCode: "101",
-      payment: 1500
-    }, {
-      guestName: "Gustavo Lemus",
-      guestPhone: "3112705037",
-      enterDate: new Date("2022/11/25"),
-      leaveDate: new Date("2022/11/27"),
-      roomCode: "102",
-      payment: 1000
-    }]
+  constructor(private firestore: AngularFirestore) {
+    this.getGuests().subscribe(res => {
+      this.guests = res
+    })
     this.activeGuest = {
       guestName: "",
       guestPhone: "",
       enterDate: new Date(""),
       leaveDate: new Date(""),
       roomCode: "",
-      payment: 0
+      payment: 0,
+      roomPrice: "",
+      enterCode: ""
     }
     this.lang = "es"
-
   }
 
-  public setLang(s: string){
+  public getGuests(): Observable<Guest[]>{
+    return this.firestore.collection('guest').snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Guest
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      })
+    )
+  }
+
+  public getGuest(id: string){
+    return this.firestore.collection('guest').doc(id).snapshotChanges().pipe(
+      map(a => {
+        const data = a.payload.data() as Guest
+        const id = a.payload.id;
+        return { id, ...data };
+      })
+    )
+  }
+
+  public setLang(s: string) {
     this.lang = s
   }
 
-  public getLang(): string{
+  public getLang(): string {
     return this.lang
   }
 
-  public setActive(g:Guest){
+  public setActive(g: Guest) {
     this.activeGuest = g
   }
 
@@ -54,26 +68,23 @@ export class GuestService {
     return this.activeGuest
   }
 
-  public addGuest(g:Guest){
-    this.guests.push(g)
+  public newGuest(g: Guest): Observable<Guest[]> {
+    this.firestore.collection('guest').add(g);
+    return this.getGuests();
   }
 
-  public deleteGuest(pos: number): Guest[]{
-    this.guests.splice(pos, 1)
-    return this.guests
+  public removeGuest(id: string): Observable<Guest[]> {
+    this.firestore.doc('guest/'+id).delete();
+    return this.getGuests();
   }
 
-  public getGuestByPhoneNumber(pn: string): Guest{
+  public getGuestByPhoneNumber(pn: string): Guest {
     let item: Guest;
     item = this.guests.find(
       (guest) => {
-        return guest.guestPhone===pn
+        return guest.guestPhone === pn
       }
     );
     return item
-  }
-
-  public getGuests(): Guest[]{
-    return this.guests
   }
 }

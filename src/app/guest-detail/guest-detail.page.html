@@ -17,8 +17,8 @@
       <ion-card-subtitle>Número de Teléfono:<ion-card-subtitle (click)="sendMessage()" class="url"> {{guest.guestPhone}}
         </ion-card-subtitle>
       </ion-card-subtitle>
-      <ion-card-subtitle>Fecha de Entrada: <br>{{guest.enterDate.toLocaleDateString()}}</ion-card-subtitle>
-      <ion-card-subtitle>Fecha de Salida: <br>{{guest.leaveDate.toLocaleDateString()}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Entrada: <br>{{newDate(guest.enterDate)}}</ion-card-subtitle>
+      <ion-card-subtitle>Fecha de Salida: <br>{{newDate(guest.leaveDate)}}</ion-card-subtitle>
       <ion-card-subtitle>Precio habitacion: <br>{{room.price|currency}}</ion-card-subtitle>
       <ion-card-subtitle>Cantidad pagada: <br>{{guest.payment|currency}}</ion-card-subtitle>
     </ion-card-content>

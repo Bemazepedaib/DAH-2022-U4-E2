@@ -5,7 +5,6 @@ import { Room } from '../models/room';
 import { RoomService } from '../services/room.service';
 import { AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { throws } from 'assert';
 
 @Component({
   selector: 'app-admin-view',
@@ -17,34 +16,32 @@ export class AdminViewPage implements OnInit {
   public guests: Guest[];
   public rooms: Room[];
 
-  constructor(private gS: GuestService, private rS: RoomService, private aC: AlertController, private r: Router,
-    private tC: ToastController) { 
-      this.guests=this.gS.getGuests();
+  constructor(private gS: GuestService, private rS: RoomService, private aC: AlertController, private r: Router) {
+    this.gS.getGuests().subscribe(res => {
+      this.guests = res
+    })
+    this.rS.getRooms().subscribe(res => {
+      this.rooms = res
+    })
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  public getPrice(rc: string): number{
-    let a = this.rS.getOccupiedRoomByCode(rc)
-    return a.price
-  }
-
-  public getGuestByPhoneNumber(pn: string): void{
+  public getGuestByPhoneNumber(pn: string) {
     this.r.navigate(
       ['/guest-detail'],
       {
-        queryParams: {phoneNumber: pn}
-      } )
+        queryParams: { phoneNumber: pn }
+      })
   }
 
-  public addBooking(){
+  public addBooking() {
     this.r.navigate(
       ['/add-booking']
     )
   }
 
-  public async deleteBooking(pos: number){
+  public async deleteBooking(g: Guest) {
     const alert = await this.aC.create({
       header: 'Confirmación',
       subHeader: '¿Estás seguro que deseas eliminar?',
@@ -54,18 +51,40 @@ export class AdminViewPage implements OnInit {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => { }
-        },{
+        }, {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { 
-            let g = this.guests[pos].roomCode
-            this.rS.setFree(this.rS.getOccupiedRoomByCode(g));
-            this.guests = this.gS.deleteGuest(pos); 
+          handler: () => {
+            this.gS.removeGuest(g.id).subscribe(res => {
+              this.guests = res
+            })
+            this.rooms
+            let r: Room = this.getRoomByCode(g.roomCode)
+            this.rS.changeStatus(r)
           }
         }
       ]
     });
     await alert.present();
+  }
+
+  public newDate(a: any): any {
+    var timeStamp = a
+    var dateFormat = new Date(timeStamp);
+    if ((dateFormat.getDate() + 1) <= 9) {
+      return dateFormat.getFullYear() + "-" + (dateFormat.getMonth() + 1) + "-0" + (dateFormat.getDate() + 1)
+    } else {
+      return dateFormat.getFullYear() + "-" + (dateFormat.getMonth() + 1) + "-" + (dateFormat.getDate() + 1)
+    }
+  }
+
+  public getRoomByCode(code: string): Room {
+    let item = this.rooms.find(
+      (room) => {
+        return room.roomCode === code;
+      }
+    );
+    return item;
   }
 
 }

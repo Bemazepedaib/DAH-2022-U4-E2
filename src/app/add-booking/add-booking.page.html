@@ -64,7 +64,8 @@
         <ion-col>
           <ion-item>
             <ion-select placeholder="Habitacion" formControlName="room">
-              <ion-select-option *ngFor="let item of freeRooms" [value]="item.roomCode">{{item.roomCode}} {{item.price|currency}}
+              <ion-select-option *ngFor="let item of rooms" [value]="item.roomCode">
+                <ion-item *ngIf="!item.status">{{item.roomCode}} {{item.price|currency}}</ion-item>
               </ion-select-option>
             </ion-select>
           </ion-item>
@@ -98,7 +99,7 @@
       </ion-row>
     </form>
   </ion-grid>
-  <ion-button expand="block" color="primary" (click)="addBooking()" *ngIf="myForm.valid">
+  <ion-button expand="block" color="primary" (click)="addBooking()">
     <ion-icon name="add"></ion-icon>
   </ion-button>
 </ion-content>

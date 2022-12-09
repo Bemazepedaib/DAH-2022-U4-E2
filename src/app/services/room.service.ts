@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 import { Room } from '../models/room';
 
 @Injectable({
@@ -6,77 +9,58 @@ import { Room } from '../models/room';
 })
 export class RoomService {
 
-  private ocuppied: Room[];
-  private free: Room[];
+  private rooms: Room[];
 
-  constructor() {
-    this.ocuppied = [{
+  constructor(private firestore: AngularFirestore) {
+    this.getRooms().subscribe(res => {
+      this.rooms = res
+    })
+  }
+
+  public getRooms(): Observable<Room[]>{
+    return this.firestore.collection('room').snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Room
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      })
+    )
+  }
+
+  public getRoom(id: string){
+    return this.firestore.collection('room').doc(id).snapshotChanges().pipe(
+      map(a => {
+        const data = a.payload.data() as Room
+        const id = a.payload.id;
+        return { id, ...data };
+      })
+    )
+  }
+
+  public changeStatus(r: Room): Observable<Room[]>{
+    let a = {
       enterCode: Math.floor(Math.random()*90000) + 10000,
-      roomCode: "101",
-      price: 1500
-    }, {
-      enterCode: Math.floor(Math.random()*90000) + 10000,
-      roomCode: "102",
-      price: 2000
-    }]
-    this.free = [{
-      enterCode: Math.floor(Math.random()*90000) + 10000,
-      roomCode: "103",
-      price: 2500
-    }]
+      roomCode: r.roomCode,
+      price: r.price,
+      status: !r.status
+    }
+    return this.updateRoom(r.id, a)
   }
 
-  public getOccupied(): Room[] {
-    return this.ocuppied
+  public updateRoom(id: string, r: Room): Observable<Room[]>{
+    this.firestore.doc('room/'+ id).update(r);
+    return this.getRooms();
   }
 
-  public getFree(): Room[] {
-    return this.free
-  }
-
-  public setOcuppied(r: Room) {
-    this.free.splice(this.getIndexFreeRoomByCode(r.roomCode), 1)
-    this.ocuppied.push(r);
-  }
-
-  public setFree(r: Room) {
-    this.ocuppied.splice(this.getIndexOccupiedRoomByCode(r.roomCode), 1)
-    this.free.push(r);
-  }
-
-  public getIndexOccupiedRoomByCode(code: string): number {
-    let index = this.ocuppied.findIndex(
+  public getRoomByCode(code: string): Room {
+    let item = this.rooms.find(
       (room) => {
-        return room.roomCode===code;
-      }
-    );
-    return index
-  }
-
-  public getIndexFreeRoomByCode(code: string): number {
-    let index = this.free.findIndex(
-      (room) => {
-        return room.roomCode===code;
-      }
-    );
-    return index;
-  }
-
-  public getOccupiedRoomByCode(code: string): Room{
-    let item = this.ocuppied.find(
-      (room) => {
-        return room.roomCode===code;
+        return room.roomCode === code;
       }
     );
     return item;
   }
-
-  public getFreeRoomByCode(code: string): Room{
-    let item = this.free.find(
-      (room) => {
-        return room.roomCode===code;
-      }
-    );
-    return item;
-  }
+  
 }

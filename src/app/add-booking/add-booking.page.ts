@@ -5,6 +5,8 @@ import { Room } from '../models/room';
 import { RoomService } from '../services/room.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -15,15 +17,15 @@ import { ToastController } from '@ionic/angular';
 export class AddBookingPage implements OnInit {
 
   public myForm: FormGroup;
-  public validationMessages: Object
-  public freeRooms: Room[]
+  public validationMessages: Object  
+  public rooms: Room[]
+  public guests: Guest[]
   public now = new Date(Date.now()).toISOString()
-  public tmrw = new Date(this.now)
 
-
-  constructor(private gS: GuestService, private rS: RoomService, private fB: FormBuilder, private tC: ToastController) {
-    this.freeRooms = this.rS.getFree();
-    this.tmrw.setDate(this.tmrw.getDate() + 3);
+  constructor(private gS: GuestService, private rS: RoomService, private fB: FormBuilder, private tC: ToastController, private r: Router, private aR: ActivatedRoute) {
+    this.rS.getRooms().subscribe(res => {
+      this.rooms = res
+    })
   }
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class AddBookingPage implements OnInit {
       phone: ["", Validators.compose([Validators.required, Validators.pattern('[0-9]{10}'), Validators.minLength(10), Validators.maxLength(10)])],
       inDate: ["", Validators.compose([Validators.required])],
       outDate: ["", Validators.compose([Validators.required])],
-      room: ["", Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])],
+      room: ["", Validators.compose([Validators.required  ])],
       payment: ["", Validators.compose([Validators.required, Validators.pattern('^[0-9]+$')])]
     });
     this.validationMessages = {
@@ -47,12 +49,10 @@ export class AddBookingPage implements OnInit {
       ],
       'room': [
         { type: 'required', message: "Elige una habitación" },
-        { type: 'minLength', message: "Elige una habitación" },
-        { type: 'maxLength', message: "Elige una habitación" }
       ],
       'payment': [
-        { type: 'required', message: "No dejar el campo vacío, poner un 0"},
-        { type: 'pattern', message: "Poner una cantidad numérica"}
+        { type: 'required', message: "No dejar el campo vacío, poner un 0" },
+        { type: 'pattern', message: "Poner una cantidad numérica" }
       ]
     }
   }
@@ -68,17 +68,22 @@ export class AddBookingPage implements OnInit {
         });
         toast.present();
       } else {
+        let r: Room = this.rS.getRoomByCode(this.myForm.get('room').value)
         let g: Guest = {
           guestName: this.myForm.get('name').value,
           guestPhone: this.myForm.get('phone').value,
-          enterDate: this.newDate(this.myForm.get('inDate').value),
-          leaveDate: this.newDate(this.myForm.get('outDate').value),
+          enterDate: this.myForm.get('inDate').value.split('T')[0],
+          leaveDate: this.myForm.get('outDate').value.split('T')[0],
           roomCode: this.myForm.get('room').value,
-          payment: this.myForm.get('payment').value
+          payment: this.myForm.get('payment').value,
+          roomPrice: r.price.toString(),
+          enterCode: r.enterCode.toString()
         }
-        this.gS.addGuest(g)
-        let r: Room = this.rS.getFreeRoomByCode(this.myForm.get('room').value)
-        this.rS.setOcuppied(r)
+        this.rS.changeStatus(r)
+        this.gS.newGuest(g)
+        this.r.navigate(
+          ['/admin-view']
+        )
         let toast = await this.tC.create({
           message: 'Reservación creada',
           duration: 2000

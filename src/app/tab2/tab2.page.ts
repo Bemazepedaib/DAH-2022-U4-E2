@@ -31,19 +31,17 @@ export class Tab2Page {
 
   ngOnInit() {
     this.guest = this.gS.getActive();
-    this.room = this.rS.getOccupiedRoomByCode(this.guest.roomCode)
+    this.room = this.rS.getRoomByCode(this.guest.roomCode)
     this.lang = this.gS.getLang();
     this.checkForLang();
     this.resto = this.room.price - this.guest.payment
   }
 
   public fechaActual() {
-    if (((this.guest.enterDate.getFullYear() <= this.now.getFullYear()) &&
-      (this.guest.enterDate.getMonth() <= this.now.getMonth()) &&
-      (this.guest.enterDate.getDate() <= this.now.getDate())) &&
-      ((this.guest.leaveDate.getFullYear() >= this.now.getFullYear()) &&
-        (this.guest.leaveDate.getMonth() >= this.now.getMonth()) &&
-        (this.guest.leaveDate.getDate() >= this.now.getDate()))) {
+    let a = this.newDate(this.guest.enterDate)
+    let b = this.newDate(this.guest.leaveDate)
+    let c = this.now.toISOString().split('T')[0]
+    if ((a <= c) && (b >= c)){
       return true
     } else {
       return false
@@ -92,6 +90,15 @@ export class Tab2Page {
         this.token = 'Votre jeton dentrée est: '
         this.pay = 'Nous vous rappelons que vous devez toujours payer: '
         break;
+    }
+  }
+  public newDate(a: any): any{
+    var timeStamp = a
+    var dateFormat = new Date(timeStamp);
+    if ((dateFormat.getDate()+1)<=9){
+      return dateFormat.getFullYear()+"-"+(dateFormat.getMonth()+1)+"-0"+(dateFormat.getDate()+1)
+    } else {
+      return dateFormat.getFullYear()+"-"+(dateFormat.getMonth()+1)+"-"+(dateFormat.getDate()+1)
     }
   }
 }
