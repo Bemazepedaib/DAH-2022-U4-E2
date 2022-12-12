@@ -14,6 +14,7 @@ export class PhotoService {
   constructor(private angularFireStorage: AngularFireStorage) { }
 
   getPhotos(room: string) {
+    this.photos = []
     const ref = 'uploads/' + room + "/"
     const storageRef = this.angularFireStorage.ref(ref)
     storageRef.listAll().subscribe(data => {
@@ -36,13 +37,12 @@ export class PhotoService {
         });
         const id = uuidv4();
         const ref = 'uploads/' + room + "/" + id + "/"
-        this.angularFireStorage.upload(ref, imgBlob).then(async res => b = await res.ref.getDownloadURL())
+        this.angularFireStorage.upload(ref, imgBlob).then(async res =>  console.log(res.ref.getDownloadURL()))
       };
       fetch(photo.webPath).then((v) =>
         v.blob().then((imagen) => reader.readAsArrayBuffer(imagen))
       );
     });
-    return b
   }
 
   async takePhoto() {

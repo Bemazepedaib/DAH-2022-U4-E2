@@ -47,7 +47,7 @@ export class Tab4Page {
   handleRefresh(event) {
     setTimeout(() => {
       this.imageUploads = []
-      this.imageUploads = this.pS.getPhotos("101")
+      this.imageUploads = this.pS.getPhotos(this.gS.getActive().roomCode)
       event.target.complete();
     }, 2000);
   };
