@@ -33,21 +33,21 @@ export class TabsPage {
         this.tab1 = 'Reglas'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Actividades'
-        this.tab4 = 'Galeria de habitacion'
+        this.tab4 = 'Comparte tu experiencia'
         break;
       case 'en':
         this.welcome = '¡Welcome to Hotel Tigres del Tec!';
         this.tab1 = 'Rules'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Activities'
-        this.tab4 = 'Room gallery'
+        this.tab4 = 'Share your experience'
         break;
       case 'fr':
         this.welcome = '!Bienvenue à Hotel Tigres del Tec!';
         this.tab1 = 'Règles'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Activités'
-        this.tab4 = 'Galerie de la salle'
+        this.tab4 = 'Partagez votre expérience'
         break;
     }
   }

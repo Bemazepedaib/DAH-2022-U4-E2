@@ -3,7 +3,7 @@
     align-self: center;
     align-content: center;
     align-items: center;
-    width: 100%;
+    width: 50%;
 }
 
 .al {
@@ -12,5 +12,10 @@
     align-self: center;
     align-content: center;
     align-items: center;
+}
 
+.img {
+    width: 60%;
+    height: 60%;
+    overflow: hidden;
 }

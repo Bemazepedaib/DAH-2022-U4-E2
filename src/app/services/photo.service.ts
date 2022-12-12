@@ -4,21 +4,45 @@ import { uuidv4 } from '@firebase/util';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class PhotoService {
 
-  private photos: string[]
+  private photos: string[] = []
 
-  constructor(private angularFireStorage: AngularFireStorage) { 
+  constructor(private angularFireStorage: AngularFireStorage) { }
 
+  getPhotos(room: string) {
+    const ref = 'uploads/' + room + "/"
+    const storageRef = this.angularFireStorage.ref(ref)
+    storageRef.listAll().subscribe(data => {
+      data.items.forEach(async e => {
+        const a = await e.getDownloadURL().then(b => {
+          this.photos.push(b)
+        })
+      })
+    })
+    return this.photos
   }
 
-  getPhotos(room: string): Observable<string[]>{
-    const ref = 'uploads/'+room
-    return this.angularFireStorage.ref(ref).getDownloadURL();
+  async newPhoto(room: string) {
+    let b = ""
+    this.takePhoto().then(photo => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imgBlob = new Blob([reader.result], {
+          type: `image/${photo.format}`,
+        });
+        const id = uuidv4();
+        const ref = 'uploads/' + room + "/" + id + "/"
+        this.angularFireStorage.upload(ref, imgBlob).then(async res => b = await res.ref.getDownloadURL())
+      };
+      fetch(photo.webPath).then((v) =>
+        v.blob().then((imagen) => reader.readAsArrayBuffer(imagen))
+      );
+    });
+    return b
   }
 
   async takePhoto() {
@@ -27,12 +51,6 @@ export class PhotoService {
       source: CameraSource.Camera,
       quality: 100,
     });
-  }
-
-  uploadPhoto(image: Blob, room: String) {
-    const id = uuidv4();
-    const ref = 'uploads/'+room+"/"+id+"/"
-    this.angularFireStorage.upload(ref, image).then(res => console.log(res))
   }
 }
 
