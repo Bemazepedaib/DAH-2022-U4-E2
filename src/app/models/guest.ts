@@ -8,4 +8,5 @@ export class Guest {
     enterCode: string;
     payment: number;
     id?: string;
+    photo?: string;
 }

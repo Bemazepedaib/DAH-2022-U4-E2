@@ -15,6 +15,7 @@ export class TabsPage {
   public tab1: string
   public tab2: string
   public tab3: string
+  public tab4: string
 
   constructor(private gS:GuestService) { 
   }
@@ -32,18 +33,21 @@ export class TabsPage {
         this.tab1 = 'Reglas'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Actividades'
+        this.tab4 = 'Galeria de habitacion'
         break;
       case 'en':
         this.welcome = '¡Welcome to Hotel Tigres del Tec!';
         this.tab1 = 'Rules'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Activities'
+        this.tab4 = 'Room gallery'
         break;
       case 'fr':
         this.welcome = '!Bienvenue à Hotel Tigres del Tec!';
         this.tab1 = 'Règles'
         this.tab2 = 'Check-In & Check-Out'
         this.tab3 = 'Activités'
+        this.tab4 = 'Galerie de la salle'
         break;
     }
   }

@@ -13,12 +13,14 @@ import { environment } from 'src/environments/environment';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore'
 
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AngularFirestore],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AngularFirestore, AngularFireStorage],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
